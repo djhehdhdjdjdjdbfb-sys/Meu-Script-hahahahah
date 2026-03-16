@@ -4695,16 +4695,17 @@ SoundGunTab:AddToggle({
 --// ===============================
 local MusicTab = Window:MakeTab({
     Title = "Música",
-    Icon = "rbxassetid://10734905823"
+    Icon = "rbxassetid://10734900215"
 })
 
 MusicTab:AddSection({ "É preciso game pass para ouvir as músicas" })
 
 --// ===============================
---// TABELAS EXEMPLO COM ORDEM FIXA
+--// TABELAS DE MÚSICAS ORDENADAS
 --// ===============================
 
-local Phonk = {
+-- Phonk
+local PhonkIDs = {
 ["Montagem Espanca Loli"] = "98623641908787",
 ["Montagem os 3 macete"] = "138730944430517",
 ["MONTAGEM AUTOMOTIVA DO FUTURO"] = "87299594714360",
@@ -4760,8 +4761,15 @@ local Phonk = {
 ["Trying To finde"] = "132643763204246",
 ["Montagem Sinistra Dz7"] = "78098390943739"
 }
+local PhonkOrder = {
+    "Montagem Espanca Loli",
+    "Montagem os 3 macete",
+    "MONTAGEM AUTOMOTIVA DO FUTURO",
+    "MONTAGEM VEM F*D*R NA ONDA DA LOLO"
+}
 
-local Funk = {
+-- Funk
+local FunkIDs = {
 ["Automotivo no bico da garrafa"] = "107047372509033",
 ["OFF THE KING"] = "120324849313242",
 ["amo"] = "96259351729049",
@@ -4863,8 +4871,10 @@ local Funk = {
 ["bao"] = "89789578077519",
 ["Uniao Flasco"] = "100989716917693"
 }
+local FunkOrder = {"Funk 1", "Funk 2", "Funk 3"}
 
-local Forro = {
+-- Forró
+local ForroIDs = {
 ["Em breve mais mÃºsicas"] = "",
 ["forrÃ³ ja cansou"] = "74812784884330",
 ["escolha certa"] = "107088620814881",
@@ -4875,9 +4885,10 @@ local Forro = {
 ["Se Eu Velejar"] = "108383593687416",
 ["forrÃ³ da resenha"] = "120973520531216"
 }
+local ForroOrder = {"Forró 1", "Forró 2", "Forró 3"}
 
-local Aleatorio = {
-["Em breve mais mÃºsicas"] = "",
+-- Aleatórias
+local AleatorioIDs = {
 ["Carro do Ovos"] = "3148329638",
 ["confession"] = "92992163303925",
 ["fa3 renitch"] = "128934903242385",
@@ -4897,6 +4908,7 @@ local Aleatorio = {
 ["Nooo"] = "73685038553576",
 ["tuber 93"] = "1839246711"
 }
+local AleatorioOrder = {"Aleatória 1", "Aleatória 2", "Aleatória 3"}
 
 --// ===============================
 --// FUNÇÃO TOCAR MÚSICA
@@ -4915,18 +4927,14 @@ local function playMusic(id)
 end
 
 --// ===============================
---// DROPDOWN COM ORDEM FIXA
+--// FUNÇÃO PARA CRIAR DROPDOWN ORDENADO
 --// ===============================
-local function makeDropdown(tab, name, data)
-    -- Define a ordem fixa de IDs
-    local orderedKeys = { "ID 1", "ID 2", "ID 3" }
-
+local function makeDropdown(tab, name, idsTable, orderTable)
     tab:AddDropdown({
         Name = name,
-        Options = orderedKeys,
+        Options = orderTable,
         Callback = function(Value)
-            local id = data[Value]
-            -- Executa imediatamente ao selecionar
+            local id = idsTable[Value]
             if id and id ~= "" then
                 playMusic(id)
             end
@@ -4934,10 +4942,10 @@ local function makeDropdown(tab, name, data)
     })
 end
 
-makeDropdown(MusicTab, "Funk", Funk)
-makeDropdown(MusicTab, "Phonk", Phonk)
-makeDropdown(MusicTab, "Forró", Forro)
-makeDropdown(MusicTab, "Aleatórios", Aleatorio)
+makeDropdown(MusicTab, "Phonk", PhonkIDs, PhonkOrder)
+makeDropdown(MusicTab, "Funk", FunkIDs, FunkOrder)
+makeDropdown(MusicTab, "Forró", ForroIDs, ForroOrder)
+makeDropdown(MusicTab, "Aleatórias", AleatorioIDs, AleatorioOrder)
 
 --// ===============================
 --// BOTÃO PARA PARAR MÚSICA
@@ -4951,12 +4959,10 @@ MusicTab:AddButton({
 
 MusicTab:AddSection({ "As músicas só estão pegando em caixa de som" })
 
-print("✓ Sistema de música carregado COMPLETO")
-
 --// ===============================
 --// ID PERSONALIZADO
 --// ===============================
-MusicTab:AddSection({ "ID Personalizado (Escolha qualquer música)" })
+MusicTab:AddSection({ "🎵 ID Personalizado (Escolha qualquer música)" })
 
 local CustomMusicID = ""
 
@@ -4971,8 +4977,10 @@ MusicTab:AddTextBox({
 MusicTab:AddButton({
     Name = "▶ TOCAR ID DIGITADO",
     Callback = function()
-        if CustomMusicID ~= "" and CustomMusicID ~= nil then
+        if CustomMusicID ~= "" then
             playMusic(CustomMusicID)
         end
     end
 })
+
+print("✓ Sistema de música carregado COMPLETO aaaaaaaaa")
