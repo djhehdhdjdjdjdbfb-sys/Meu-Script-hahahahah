@@ -4405,17 +4405,20 @@ RGBTab:AddToggle({
 
 
 
+
+
+
 --////////////////////////////////////////////////////
---// ABA SOUND / GUN SIMPLESPY 🔊
+--// ABA SOUND / GUN SIMPLESPY ðŸ”Š
 local SoundGunTab = Window:MakeTab({
-    Title = "Sound ALL",
-    Icon = "rbxassetid://10734900215"
+    Title = " Sound  ALL",
+    Icon = "rbxassetid://18187351229"
 })
 
 SoundGunTab:AddSection({ "TOQUE O SOM PARA TODO O SERVIDOR" })
 
 --////////////////////////////////////////////////////
---// SERVIÇOS
+--// SERVIÃ‡OS
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SoundService = game:GetService("SoundService")
@@ -4435,7 +4438,7 @@ local SoundIDs = {
     ["Windows erro"] = "2661731024",
     ["Ahhhhh"] = "138326175698800",
     ["Faz o L"] = "133157583643691",
-    ["Expansão de domínio br"] = "102876122309105",
+    ["ExpansÃƒÂ£o de domÃƒÂ­nio br"] = "102876122309105",
     ["Gojo"] = "138283818946733",
     ["Risada 1"] = "136714652845401",
     ["Risada 2"] = "136195112064921",
@@ -4443,39 +4446,39 @@ local SoundIDs = {
     ["Risada 3"] = "78806465878205",
     ["Risada 4"] = "76038831505190",
     ["Pega Minha marreta"] = "116164900957098",
-    ["Só isso"] = "97243810524027",
-    ["N teve graça"] = "127133189032694",
+    ["SÃƒÂ³ isso"] = "97243810524027",
+    ["N teve graÃƒÂ§a"] = "127133189032694",
     ["Escuro"] = "18870782376",
-    ["Explosão"] = "117610888513112",
-    ["Explosão 2"] = "101006595303605",
+    ["ExplosÃƒÂ£o"] = "117610888513112",
+    ["ExplosÃƒÂ£o 2"] = "101006595303605",
     ["Sus"] = "72012887327238",
-    ["Vó copia o Satoru gojo"] = "140175808370920",
+    ["VÃƒÂ³ copia o Satoru gojo"] = "140175808370920",
     ["tu e seco"] = "77058106224586",
     ["vou te ensinar a respeitar"] = "117685294896990",
     ["zumbi mini"] = "77774003812009",
     ["Brasil sil Sil"] = "123466896275673",
-    ["ci fudeu meu amigo"] = "121320468979531",
+    ["ci fudeu meu amigo "] = "121320468979531",
     ["fala da o papo"] = "134699681156023",
     ["ahhhhhhhhh"] = "133065318200768",
-    ["pega o Jack"] = "133582774056892",
+    ["pega o Jack "] = "133582774056892",
     ["sou bom"] = "129259905468567",
-    ["toma Jack"] = "100446887985203",
-    ["toma Jack no sol"] = "97476487963273",
+    ["toma Jack "] = "100446887985203",
+    ["toma Jack no sol "] = "97476487963273",
     ["lula"] = "136804576009416",
     ["coringa"] = "84663543883498",
-    ["sai daí lava prato"] = "101232400175829",
-    ["num compensa"] = "78442476709262",
+    ["sai daÃ­ lava prato "] = "101232400175829",
+    ["num compensa "] = "78442476709262",
     ["sai desgra@@"] = "106973692977609",
-    ["porque essa diferença?"] = "120370340698141",
+    ["porque essa diferenÃ§a?"] = "120370340698141",
     ["meus ataques"] = "126667346252984",
-    ["você quer marretada do Tor?"] = "102037691397539",
+    ["vocÃª quer marretada do Tor?"] = "102037691397539",
     ["molestado pelo pai"] = "135334987359228",
     ["Makita"] = "131862097205793",
     ["ahhhhhhhhhhhhhh"] = "98660719604777",
-    ["aí minha canela"] = "94187671110604",
+    ["aÃ­ minha canela"] = "94187671110604",
     ["se levanta baiano"] = "129456656692974",
     ["eu sou o melhor"] = "82406273626578",
-    ["aí meu cu"] = "91931550918967"
+    ["aÃ­ meu cu"] = "91931550918967"
 }
 
 --////////////////////////////////////////////////////
@@ -4501,7 +4504,7 @@ local CustomLoopSpeed = 10
 --////////////////////////////////////////////////////
 --// DROPDOWN
 SoundGunTab:AddDropdown({
-    Name = "Escolher Som",
+    Name = " Escolher Som",
     Options = SoundNames,
     Default = SelectedName,
     Callback = function(v)
@@ -4510,7 +4513,7 @@ SoundGunTab:AddDropdown({
 })
 
 --////////////////////////////////////////////////////
---// FUNÇÃO SOM LOCAL
+--// FUNÃ‡ÃƒO SOM LOCAL
 local function PlayLocalSound(id)
     local sound = Instance.new("Sound")
     sound.SoundId = "rbxassetid://" .. tostring(id)
@@ -4527,7 +4530,7 @@ local function PlayLocalSound(id)
 end
 
 --////////////////////////////////////////////////////
---// FUNÇÃO EXECUTAR SOM + GUN
+--// FUNÃ‡ÃƒO EXECUTAR SOM + GUN
 local function ExecuteSoundGun(id)
     id = tostring(id)
 
@@ -4568,7 +4571,7 @@ local function ExecuteSoundGun(id)
 end
 
 --////////////////////////////////////////////////////
---// BOTÃO SOM SELECIONADO
+--// BOTÃƒO SOM SELECIONADO
 SoundGunTab:AddButton({
     Name = "TOCAR SOM SELECIONADO",
     Callback = function()
@@ -4580,16 +4583,15 @@ SoundGunTab:AddButton({
 })
 
 
-
 local RunService = game:GetService("RunService")
 
 LoopSpeed = LoopSpeed or 1
 LoopEnabled = false
 
 --////////////////////////////////////////////////////
---// SLIDER 1 ATÉ 350
+--// SLIDER 1 ATÃ‰ 350
 SoundGunTab:AddSlider({
-    Name = "Velocidade do Loop",
+    Name = "âš¡ Velocidade do Loop ",
     Min = 1,
     Max = 350,
     Default = LoopSpeed,
@@ -4632,9 +4634,10 @@ SoundGunTab:AddToggle({
     end
 })
 
+
 --////////////////////////////////////////////////////
 --// ID PERSONALIZADO
-SoundGunTab:AddSection({ "ID Personalizado" })
+SoundGunTab:AddSection({ " ID Personalizado" })
 
 SoundGunTab:AddTextBox({
     Name = "Digite o ID",
@@ -4645,7 +4648,7 @@ SoundGunTab:AddTextBox({
 })
 
 SoundGunTab:AddButton({
-    Name = "▶ TOCAR ID DIGITADO",
+    Name = "TOCAR ID DIGITADO",
     Callback = function()
         if CustomID ~= "" then
             ExecuteSoundGun(CustomID)
@@ -4656,7 +4659,7 @@ SoundGunTab:AddButton({
 --////////////////////////////////////////////////////
 --// SLIDER LOOP ID DIGITADO
 SoundGunTab:AddSlider({
-    Name = "Velocidade do Loop (ID Digitado)",
+    Name = " Velocidade do Loop (ID Digitado)",
     Min = 1,
     Max = 50,
     Default = CustomLoopSpeed,
@@ -4670,7 +4673,7 @@ SoundGunTab:AddSlider({
 --////////////////////////////////////////////////////
 --// LOOP ID DIGITADO
 SoundGunTab:AddToggle({
-    Name = "LOOP ID DIGITADO",
+    Name = " LOOP ID DIGITADO",
     Default = false,
     Callback = function(state)
         CustomLoopEnabled = state
@@ -4691,21 +4694,20 @@ SoundGunTab:AddToggle({
 
 
 --// ===============================
---// ABA MÚSICA
+--// ABA MÃšSICA
 --// ===============================
 local MusicTab = Window:MakeTab({
-    Title = "Música",
-    Icon = "rbxassetid://10734900215"
+    Title = "Música,
+    Icon = "rbxassetid://7059338404"
 })
 
-MusicTab:AddSection({ "É preciso game pass para ouvir as músicas" })
+MusicTab:AddSection({ "Ã© preciso game pass para ouvir as mÃºsicas" })
 
 --// ===============================
---// TABELAS DE MÚSICAS ORDENADAS
+--// TABELAS COMPLETAS
 --// ===============================
 
--- Phonk
-local PhonkIDs = {
+local Phonk = {
 ["Montagem Espanca Loli"] = "98623641908787",
 ["Montagem os 3 macete"] = "138730944430517",
 ["MONTAGEM AUTOMOTIVA DO FUTURO"] = "87299594714360",
@@ -4761,15 +4763,8 @@ local PhonkIDs = {
 ["Trying To finde"] = "132643763204246",
 ["Montagem Sinistra Dz7"] = "78098390943739"
 }
-local PhonkOrder = {
-    "Montagem Espanca Loli",
-    "Montagem os 3 macete",
-    "MONTAGEM AUTOMOTIVA DO FUTURO",
-    "MONTAGEM VEM F*D*R NA ONDA DA LOLO"
-}
 
--- Funk
-local FunkIDs = {
+local Funk = {
 ["Automotivo no bico da garrafa"] = "107047372509033",
 ["OFF THE KING"] = "120324849313242",
 ["amo"] = "96259351729049",
@@ -4871,10 +4866,8 @@ local FunkIDs = {
 ["bao"] = "89789578077519",
 ["Uniao Flasco"] = "100989716917693"
 }
-local FunkOrder = {"Funk 1", "Funk 2", "Funk 3"}
 
--- Forró
-local ForroIDs = {
+local Forro = {
 ["Em breve mais mÃºsicas"] = "",
 ["forrÃ³ ja cansou"] = "74812784884330",
 ["escolha certa"] = "107088620814881",
@@ -4885,10 +4878,9 @@ local ForroIDs = {
 ["Se Eu Velejar"] = "108383593687416",
 ["forrÃ³ da resenha"] = "120973520531216"
 }
-local ForroOrder = {"Forró 1", "Forró 2", "Forró 3"}
 
--- Aleatórias
-local AleatorioIDs = {
+local Aleatorio = {
+["Em breve mais mÃºsicas"] = "",
 ["Carro do Ovos"] = "3148329638",
 ["confession"] = "92992163303925",
 ["fa3 renitch"] = "128934903242385",
@@ -4908,11 +4900,8 @@ local AleatorioIDs = {
 ["Nooo"] = "73685038553576",
 ["tuber 93"] = "1839246711"
 }
-local AleatorioOrder = {"Aleatória 1", "Aleatória 2", "Aleatória 3"}
 
---// ===============================
---// FUNÇÃO TOCAR MÚSICA
---// ===============================
+--// FUNÃ‡ÃƒO TOCAR
 local function playMusic(id)
     local RE = ReplicatedStorage:FindFirstChild("RE")
     if not RE then return end
@@ -4926,15 +4915,18 @@ local function playMusic(id)
     end)
 end
 
---// ===============================
---// FUNÇÃO PARA CRIAR DROPDOWN ORDENADO
---// ===============================
-local function makeDropdown(tab, name, idsTable, orderTable)
+--// DROPDOWN
+local function makeDropdown(tab, name, data)
+    local options = {}
+    for k,_ in pairs(data) do
+        table.insert(options, k)
+    end
+
     tab:AddDropdown({
         Name = name,
-        Options = orderTable,
+        Options = options,
         Callback = function(Value)
-            local id = idsTable[Value]
+            local id = data[Value]
             if id and id ~= "" then
                 playMusic(id)
             end
@@ -4942,32 +4934,35 @@ local function makeDropdown(tab, name, idsTable, orderTable)
     })
 end
 
-makeDropdown(MusicTab, "Phonk", PhonkIDs, PhonkOrder)
-makeDropdown(MusicTab, "Funk", FunkIDs, FunkOrder)
-makeDropdown(MusicTab, "Forró", ForroIDs, ForroOrder)
-makeDropdown(MusicTab, "Aleatórias", AleatorioIDs, AleatorioOrder)
+makeDropdown(MusicTab, "Funk", Funk)
+makeDropdown(MusicTab, "Phonk", Phonk)
+makeDropdown(MusicTab, "ForrÃ³", Forro)
+makeDropdown(MusicTab, "AleatÃ³rios", Aleatorio)
 
---// ===============================
---// BOTÃO PARA PARAR MÚSICA
---// ===============================
 MusicTab:AddButton({
-    Name = "Parar Música",
+    Name = "Parar MÃºsica",
     Callback = function()
         playMusic("0")
     end
 })
 
-MusicTab:AddSection({ "As músicas só estão pegando em caixa de som" })
+print("âœ… Sistema de mÃºsica carregado COMPLETO")
+
+
+
+
+MusicTab:AddSection({ "as mÃƒÂºsicas sÃƒÂ³ estÃƒÂ£o pegando em caixa de som" })
+
 
 --// ===============================
 --// ID PERSONALIZADO
 --// ===============================
-MusicTab:AddSection({ "🎵 ID Personalizado (Escolha qualquer música)" })
+MusicTab:AddSection({ "ID Personalizado (Escolha qualquer música)" })
 
 local CustomMusicID = ""
 
 MusicTab:AddTextBox({
-    Name = "Digite o ID da Música",
+    Name = "Digite o ID da música",
     PlaceholderText = "Ex: 73778985963973",
     Callback = function(text)
         CustomMusicID = tostring(text)
@@ -4975,12 +4970,12 @@ MusicTab:AddTextBox({
 })
 
 MusicTab:AddButton({
-    Name = "▶ TOCAR ID DIGITADO",
+    Name = " TOCAR ID DIGITADO",
     Callback = function()
-        if CustomMusicID ~= "" then
+        if CustomMusicID ~= "" and CustomMusicID ~= nil then
             playMusic(CustomMusicID)
         end
     end
 })
 
-print("✓ Sistema de música carregado COMPLETO aaaaaaaaa")
+
