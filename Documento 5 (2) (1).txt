@@ -4893,3 +4893,36 @@ MusicTab:AddButton({
 })
 
 print("✔ Sistema de música carregado COMPLETO")
+
+
+
+--==================================================
+-- Seção aviso
+--==================================================
+MusicTab:AddSection({ "As músicas só estão pegando em caixa de som" })
+
+--==================================================
+-- ID PERSONALIZADO
+--==================================================
+MusicTab:AddSection({ "🎵 ID Personalizado (Escolha qualquer música)" })
+
+local CustomMusicID = ""
+
+-- Caixa de texto para digitar ID
+MusicTab:AddTextBox({
+    Name = "Digite o ID da Música",
+    PlaceholderText = "Ex: 73778985963973",
+    Callback = function(text)
+        CustomMusicID = tostring(text)
+    end
+})
+
+-- Botão para tocar ID digitado
+MusicTab:AddButton({
+    Name = "▶ TOCAR ID DIGITADO",
+    Callback = function()
+        if CustomMusicID ~= "" and CustomMusicID ~= nil then
+            playMusic(CustomMusicID)
+        end
+    end
+})
