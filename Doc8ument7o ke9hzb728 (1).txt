@@ -5166,6 +5166,8 @@ local Phonk = {
 
 local Funk = {
 ["Automotivo no bico da garrafa"] = "107047372509033",
+["Senta tua GXSTXSX"] = "110176270788146",
+["Famosinha { Estourado}"] = "112406825739796",
 ["OFF THE KING"] = "120324849313242",
 ["amo"] = "96259351729049",
 ["EntÃ£o desisti "] = "102878660090014",
@@ -5389,4 +5391,4 @@ MusicTab:AddButton({
 })
 
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/pedrosempai/Ihigihigihihiih/refs/heads/main/8741971bbe86bb36.lua.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/pedrosempai/Ihigihigihihiih/refs/heads/main/Painel%20admin"))()
