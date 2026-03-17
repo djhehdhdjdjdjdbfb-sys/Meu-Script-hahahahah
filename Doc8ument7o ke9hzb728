@@ -2444,10 +2444,8 @@ TrollTab:AddToggle({
 
 
 
-
-
 --////////////////////////////////////////////////////
---// SKYBOX TAB
+--// SKYBOX TAB (versão sem alteração automática)
 local skyboxTab = Window:MakeTab({
     Title = "Skybox e Nuke",
     Icon = "rbxassetid://7733746980"
@@ -2462,8 +2460,7 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local humanoid = Character:WaitForChild("Humanoid")
 
 --====================================================
--- CONTROLES
-
+-- VARIÁVEIS GLOBAIS DO MÓDULO
 local NukeActive = false
 local SkyboxActive = false
 
@@ -2475,71 +2472,45 @@ local SkyboxSavedBody = {}
 
 local RestoreExecuted = false
 
-----------------------------------------------------
--- PARAR ANIMAÇÕES
-----------------------------------------------------
+--====================================================
+-- FUNÇÕES AUXILIARES (comuns)
 
 local function stopTracks(tbl)
-
-    for _,t in pairs(tbl) do
+    for _, t in pairs(tbl) do
         pcall(function()
             t:Stop()
             t:Destroy()
         end)
     end
-
     for k in pairs(tbl) do
         tbl[k] = nil
     end
-
 end
 
-----------------------------------------------------
--- SALVAR BODY
-----------------------------------------------------
-
 local function saveBody(store)
-
     local d = humanoid:GetAppliedDescription()
-
     store[1] = d.Torso
     store[2] = d.RightArm
     store[3] = d.LeftArm
     store[4] = d.RightLeg
     store[5] = d.LeftLeg
     store[6] = d.Head
-
 end
 
-----------------------------------------------------
--- RESTAURAR BODY
-----------------------------------------------------
-
 local function restoreBody(store)
-
     if #store > 0 then
-
         pcall(function()
             ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer(store)
         end)
-
         for k in pairs(store) do
             store[k] = nil
         end
-
     end
-
 end
 
-----------------------------------------------------
--- RESTORE FINAL
-----------------------------------------------------
-
 local function executeFinalRestore()
-
     if RestoreExecuted then return end
     RestoreExecuted = true
-
     local args = {
         {
             376532000,
@@ -2550,305 +2521,164 @@ local function executeFinalRestore()
             0
         }
     }
-
     pcall(function()
         ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer(unpack(args))
     end)
-
 end
 
 --====================================================
--- N U K E
+-- N U K E (versão 1)
 
 skyboxTab:AddSection({"Nuke"})
 
-skyboxTab:AddToggle({
-
-    Name = "Nuke",
-    Default = false,
-
-    Callback = function(value)
-
-        if value then
-
-            RestoreExecuted = false
-
-            if SkyboxActive then
-                SkyboxActive = false
-                stopTracks(SkyboxTracks)
-                restoreBody(SkyboxSavedBody)
+do
+    local initialized = false  -- controle para evitar execução na criação
+    skyboxTab:AddToggle({
+        Name = "Nuke",
+        Default = false,
+        Callback = function(value)
+            if not initialized and value == false then
+                -- primeira chamada com false: ignorar (é a inicialização)
+                initialized = true
+                return
             end
+            initialized = true
 
-            NukeActive = true
-
-            saveBody(NukeSavedBody)
-
-            task.wait(0.2)
-
-            pcall(function()
-                ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
-                    123402086843885,
-                    100839513065432,
-                    78300682916056,
-                    86276701020724,
-                    78409653958165,
-                    15093053680
-                })
-            end)
-
-            task.wait(0.3)
-
-            local a1 = Instance.new("Animation")
-            a1.AnimationId = "rbxassetid://70883871260184"
-
-            local t1 = humanoid:LoadAnimation(a1)
-            t1.Priority = Enum.AnimationPriority.Action4
-            t1:Play(0.1,1,0.01)
-
-            table.insert(NukeTracks,t1)
-
-            task.wait(0.4)
-
-            local a2 = Instance.new("Animation")
-            a2.AnimationId = "rbxassetid://3695333486"
-
-            local t2 = humanoid:LoadAnimation(a2)
-            t2.Priority = Enum.AnimationPriority.Movement
-            t2:Play()
-
-            table.insert(NukeTracks,t2)
-
-        else
-
-            NukeActive = false
-
-            stopTracks(NukeTracks)
-            restoreBody(NukeSavedBody)
-
-            if not NukeActive and not SkyboxActive then
-                executeFinalRestore()
+            if value then
+                -- Ativar Nuke
+                RestoreExecuted = false
+                if SkyboxActive then
+                    SkyboxActive = false
+                    stopTracks(SkyboxTracks)
+                    restoreBody(SkyboxSavedBody)
+                end
+                NukeActive = true
+                saveBody(NukeSavedBody)
+                task.wait(0.2)
+                pcall(function()
+                    ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
+                        123402086843885,
+                        100839513065432,
+                        78300682916056,
+                        86276701020724,
+                        78409653958165,
+                        15093053680
+                    })
+                end)
+                task.wait(0.3)
+                local a1 = Instance.new("Animation")
+                a1.AnimationId = "rbxassetid://70883871260184"
+                local t1 = humanoid:LoadAnimation(a1)
+                t1.Priority = Enum.AnimationPriority.Action4
+                t1:Play(0.1,1,0.01)
+                table.insert(NukeTracks, t1)
+                task.wait(0.4)
+                local a2 = Instance.new("Animation")
+                a2.AnimationId = "rbxassetid://3695333486"
+                local t2 = humanoid:LoadAnimation(a2)
+                t2.Priority = Enum.AnimationPriority.Movement
+                t2:Play()
+                table.insert(NukeTracks, t2)
+            else
+                -- Desativar Nuke
+                NukeActive = false
+                stopTracks(NukeTracks)
+                restoreBody(NukeSavedBody)
+                if not NukeActive and not SkyboxActive then
+                    executeFinalRestore()
+                end
             end
-
         end
-
-    end
-})
+    })
+end
 
 --====================================================
--- N U K E FLASH
+-- N U K E FLASHBACK
 
 skyboxTab:AddToggle({
-
     Name = "Nuke FlashBack",
     Default = false,
-
     Callback = function(value)
-
-        if not value then return end
-
+        if not value then return end  -- só executa se ativado
         stopTracks(NukeTracks)
-
         local anim = Instance.new("Animation")
         anim.AnimationId = "rbxassetid://70883871260184"
-
         local track = humanoid:LoadAnimation(anim)
-
         track:Play()
         track:AdjustSpeed(5)
-
-        table.insert(NukeTracks,track)
-
+        table.insert(NukeTracks, track)
     end
-
 })
 
-
 --====================================================
--- CONTROLES
-
-local NukeActive = false
-local SkyboxActive = false
-
-local NukeTracks = {}
-local SkyboxTracks = {}
-
-local NukeSavedBody = {}
-local SkyboxSavedBody = {}
-
-local RestoreExecuted = false
-
---------------------------------------------------
--- PARAR ANIMAÇÕES
---------------------------------------------------
-
-local function stopTracks(tbl)
-
-    for _,t in pairs(tbl) do
-        pcall(function()
-            t:Stop()
-            t:Destroy()
-        end)
-    end
-
-    for k in pairs(tbl) do
-        tbl[k] = nil
-    end
-
-end
-
---------------------------------------------------
--- SALVAR BODY
---------------------------------------------------
-
-local function saveBody(store)
-
-    local d = humanoid:GetAppliedDescription()
-
-    store[1] = d.Torso
-    store[2] = d.RightArm
-    store[3] = d.LeftArm
-    store[4] = d.RightLeg
-    store[5] = d.LeftLeg
-    store[6] = d.Head
-
-end
-
---------------------------------------------------
--- RESTAURAR BODY
---------------------------------------------------
-
-local function restoreBody(store)
-
-    if #store > 0 then
-
-        pcall(function()
-            ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer(store)
-        end)
-
-        for k in pairs(store) do
-            store[k] = nil
-        end
-
-    end
-
-end
-
---------------------------------------------------
--- RESTORE FINAL
---------------------------------------------------
-
-local function executeFinalRestore()
-
-    if RestoreExecuted then return end
-    RestoreExecuted = true
-
-    local args = {
-        {
-            376532000,
-            376531012,
-            376530220,
-            376531703,
-            376531300,
-            0
-        }
-    }
-
-    pcall(function()
-        ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer(unpack(args))
-    end)
-
-end
-
---====================================================
--- N U K E OP
+-- N U K E OP (versão 2)
 
 skyboxTab:AddSection({"Nuke op"})
 
-skyboxTab:AddToggle({
-
-    Name = "Nuke",
-    Default = false,
-
-    Callback = function(value)
-
-        if value then
-
-            RestoreExecuted = false
-
-            if SkyboxActive then
-                SkyboxActive = false
-                stopTracks(SkyboxTracks)
-                restoreBody(SkyboxSavedBody)
+do
+    local initialized = false
+    skyboxTab:AddToggle({
+        Name = "Nuke",
+        Default = false,
+        Callback = function(value)
+            if not initialized and value == false then
+                initialized = true
+                return
             end
+            initialized = true
 
-            NukeActive = true
-
-            saveBody(NukeSavedBody)
-
-            task.wait(0.2)
-
-            pcall(function()
-                ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
-                    96655874457685,
-                    123402086843885,
-                    78300682916056,
-                    86276701020724,
-                    78409653958165,
-                    120668655481073
-                })
-            end)
-
-            task.wait(0.3)
-
-            local a1 = Instance.new("Animation")
-            a1.AnimationId = "rbxassetid://70883871260184"
-
-            local t1 = humanoid:LoadAnimation(a1)
-            t1.Priority = Enum.AnimationPriority.Action4
-            t1:Play(0.1,1,0.01)
-
-            table.insert(NukeTracks,t1)
-
-            task.wait(0.4)
-
-            local a2 = Instance.new("Animation")
-            a2.AnimationId = "rbxassetid://3695333486"
-
-            local t2 = humanoid:LoadAnimation(a2)
-            t2.Priority = Enum.AnimationPriority.Movement
-            t2:Play()
-
-            table.insert(NukeTracks,t2)
-
-        else
-
-            NukeActive = false
-
-            stopTracks(NukeTracks)
-            restoreBody(NukeSavedBody)
-
-            if not NukeActive and not SkyboxActive then
-                executeFinalRestore()
+            if value then
+                RestoreExecuted = false
+                if SkyboxActive then
+                    SkyboxActive = false
+                    stopTracks(SkyboxTracks)
+                    restoreBody(SkyboxSavedBody)
+                end
+                NukeActive = true
+                saveBody(NukeSavedBody)
+                task.wait(0.2)
+                pcall(function()
+                    ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
+                        96655874457685,
+                        123402086843885,
+                        78300682916056,
+                        86276701020724,
+                        78409653958165,
+                        120668655481073
+                    })
+                end)
+                task.wait(0.3)
+                local a1 = Instance.new("Animation")
+                a1.AnimationId = "rbxassetid://70883871260184"
+                local t1 = humanoid:LoadAnimation(a1)
+                t1.Priority = Enum.AnimationPriority.Action4
+                t1:Play(0.1,1,0.01)
+                table.insert(NukeTracks, t1)
+                task.wait(0.4)
+                local a2 = Instance.new("Animation")
+                a2.AnimationId = "rbxassetid://3695333486"
+                local t2 = humanoid:LoadAnimation(a2)
+                t2.Priority = Enum.AnimationPriority.Movement
+                t2:Play()
+                table.insert(NukeTracks, t2)
+            else
+                NukeActive = false
+                stopTracks(NukeTracks)
+                restoreBody(NukeSavedBody)
+                if not NukeActive and not SkyboxActive then
+                    executeFinalRestore()
+                end
             end
-
         end
-
-    end
-
-})
-
-
+    })
+end
 
 --====================================================
 -- S K Y B O X
 
 skyboxTab:AddSection({"Skybox"})
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
---------------------------------------------------
--- CAMISAS
-
+-- Camisas
 local Camisas = {
     ["Camisa 1"] = 10457987740,
     ["Camisa 2"] = 5067379138,
@@ -2860,122 +2690,96 @@ local Camisas = {
     ["Camisa 8"] = 4716946122,
 }
 
---------------------------------------------------
--- DROPDOWN
-
 local CamisaNomes = {}
-
 for nome in pairs(Camisas) do
-    table.insert(CamisaNomes,nome)
+    table.insert(CamisaNomes, nome)
 end
-
 table.sort(CamisaNomes)
 
 skyboxTab:AddDropdown({
     Name = "Camisas",
     Options = CamisaNomes,
     Callback = function(selecionada)
-
         local id = Camisas[selecionada]
-
         if id then
             pcall(function()
                 ReplicatedStorage.Remotes.WearShirt:InvokeServer(id)
             end)
         end
-
     end
 })
-
---------------------------------------------------
--- TEXTBOX ID CAMISA
 
 skyboxTab:AddTextBox({
     Name = "ID da Camisa",
     PlaceholderText = "Insira o ID da camisa",
     Callback = function(Value)
-
         local id = tonumber(Value)
-
         if id then
             pcall(function()
                 ReplicatedStorage.Remotes.WearShirt:InvokeServer(id)
             end)
         end
-
     end
 })
 
---------------------------------------------------
--- SKYBOX TOGGLE
-
-skyboxTab:AddToggle({
-
-    Name = "Skybox",
-    Default = false,
-
-    Callback = function(value)
-
-        if value then
-
-            RestoreExecuted = false
-
-            if NukeActive then
-                NukeActive = false
-                stopTracks(NukeTracks)
-                restoreBody(NukeSavedBody)
+-- Skybox toggle
+do
+    local initialized = false
+    skyboxTab:AddToggle({
+        Name = "Skybox",
+        Default = false,
+        Callback = function(value)
+            if not initialized and value == false then
+                initialized = true
+                return
             end
+            initialized = true
 
-            SkyboxActive = true
-
-            saveBody(SkyboxSavedBody)
-
-            task.wait(0.2)
-
-            pcall(function()
-                ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
-                    100839513065432,
-                    nil,nil,nil,nil,nil
-                })
-            end)
-
-            task.wait(0.3)
-
-            local a1 = Instance.new("Animation")
-            a1.AnimationId = "rbxassetid://70883871260184"
-
-            local t1 = humanoid:LoadAnimation(a1)
-            t1.Priority = Enum.AnimationPriority.Action4
-            t1:Play(0.1,1,0.01)
-
-            table.insert(SkyboxTracks,t1)
-
-            task.wait(0.4)
-
-            local a2 = Instance.new("Animation")
-            a2.AnimationId = "rbxassetid://369533346"
-
-            local t2 = humanoid:LoadAnimation(a2)
-            t2.Priority = Enum.AnimationPriority.Movement
-            t2:Play()
-
-            table.insert(SkyboxTracks,t2)
-
-        else
-
-            SkyboxActive = false
-
-            stopTracks(SkyboxTracks)
-            restoreBody(SkyboxSavedBody)
-
-            if not NukeActive and not SkyboxActive then
-                executeFinalRestore()
+            if value then
+                RestoreExecuted = false
+                if NukeActive then
+                    NukeActive = false
+                    stopTracks(NukeTracks)
+                    restoreBody(NukeSavedBody)
+                end
+                SkyboxActive = true
+                saveBody(SkyboxSavedBody)
+                task.wait(0.2)
+                pcall(function()
+                    ReplicatedStorage.Remotes.ChangeCharacterBody:InvokeServer({
+                        100839513065432,
+                        nil, nil, nil, nil, nil
+                    })
+                end)
+                task.wait(0.3)
+                local a1 = Instance.new("Animation")
+                a1.AnimationId = "rbxassetid://70883871260184"
+                local t1 = humanoid:LoadAnimation(a1)
+                t1.Priority = Enum.AnimationPriority.Action4
+                t1:Play(0.1,1,0.01)
+                table.insert(SkyboxTracks, t1)
+                task.wait(0.4)
+                local a2 = Instance.new("Animation")
+                a2.AnimationId = "rbxassetid://369533346"  --注意: ID diferente do Nuke
+                local t2 = humanoid:LoadAnimation(a2)
+                t2.Priority = Enum.AnimationPriority.Movement
+                t2:Play()
+                table.insert(SkyboxTracks, t2)
+            else
+                SkyboxActive = false
+                stopTracks(SkyboxTracks)
+                restoreBody(SkyboxSavedBody)
+                if not NukeActive and not SkyboxActive then
+                    executeFinalRestore()
+                end
             end
-
         end
+    })
+end
 
-    end
-})
+
+
+
 
 --------------------------------------------------
 -- BOTÃO TRANSPARENTE
@@ -3087,6 +2891,7 @@ skyboxTab:AddToggle({
     end
 
 })
+
 
 
 
