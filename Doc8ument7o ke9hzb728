@@ -18,7 +18,7 @@ end)
 --=============================================================================
 -- SPECTRA HUB LIBRARY (UI)
 --=============================================================================
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/assure157tv157157157-boop/Scripts-do-spectra-hub/refs/heads/main/Spectra%20lib"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/djhehdhdjdjdjdbfb-sys/Meu-Script-hahahahah/refs/heads/main/bibioteca.txt"))()
 
 local Window = Library:MakeWindow({
     Title = "Spectra hub",
