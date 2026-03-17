@@ -539,13 +539,7 @@ local Tab4 = Window:MakeTab({
     Icon = "rbxassetid://8301879545"
 })
 
---=============================================================================
--- PARÁGRAFO
---=============================================================================
-Tab4:AddParagraph({
-    Title = "função para você usar em você",
-    Content = ""
-})
+Tab4:AddSection({"função para usar em você"})
 
 --=============================================================================
 -- REMOVER BAN DAS CASAS
@@ -620,15 +614,8 @@ Tab4:AddButton({
 
 
 
---=============================================================================
--- PARÁGRAFO FINAL
---=============================================================================
-Tab4:AddParagraph({
-    Title = "para usar na sua casa",
-    Content = ""
-})
 
-
+Tab4:AddSection({"para usar na sua casa"})
 
 --=============================================================================
 -- RGB CASA
@@ -702,6 +689,7 @@ Tab4:AddToggle({
     end
 })
 
+Tab4:AddSection({"loops na sua csa"})
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Remote = ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Player1sHous1e")
