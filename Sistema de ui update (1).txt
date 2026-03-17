@@ -93,12 +93,12 @@ local function AddLine(text)
 end
 
 -- LINHAS
-AddLine("A aba skin foi reformulada em vez de botãos agora nois temos AddDropdown que vai ter tudo lá dentro blz ")
-AddLine("A aba protection foi atualizada agora as proteção tá muito forte e nenhuma outro tipo de hub consegue encostar um dedo em você por que a proteção tira  a física de todos os veículos então nada consegue te atingir nem a  bola consegue te encostar nem o fling canoas ")
-AddLine("Trocamos os esp para um que e melhor muito melhor com EPS linhas EPS nome e esp caixa ")
-AddLine("Foi isso espero e tenham gostado 😁✌️")
-AddLine("eu estou trabalhando em mais update s pra vocês")
+AddLine("aba troll reformulada")
+AddLine("mudei os icones das abas")
+AddLine("coisas melhoradas")
 AddLine("")
+AddLine("")
+
 
 -- DRAG
 local dragging = false
