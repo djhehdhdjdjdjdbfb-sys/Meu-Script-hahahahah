@@ -3049,6 +3049,119 @@ CarTab:AddButton({
     end
 })
 
+CarTab:AddSection({"loops"})
+
+--=============================================================================
+-- REMOTES DE VEÍCULO (LOOPS 0.5s)
+--=============================================================================
+local Remotes = game:GetService("ReplicatedStorage"):WaitForChild("Remotes")
+local CarRemote = game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sCa1r")
+
+-- Variáveis de controle
+local loopBuzina = false
+local loopFarol = false
+local loopLights = false
+local loopDescapotar = false
+local loopMusica = false
+
+--=============================================================================
+-- LOOP BUZINA
+--=============================================================================
+CarTab:AddToggle({
+    Name = "Loop Buzina",
+    Default = false,
+    Callback = function(state)
+        loopBuzina = state
+
+        task.spawn(function()
+            while loopBuzina do
+                Remotes.PlayHorn:InvokeServer()
+                Remotes.StopHorn:InvokeServer()
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- LOOP FAROL
+--=============================================================================
+CarTab:AddToggle({
+    Name = "Loop Farol",
+    Default = false,
+    Callback = function(state)
+        loopFarol = state
+
+        task.spawn(function()
+            while loopFarol do
+                Remotes.ToggleHeadLights:InvokeServer()
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- LOOP LIGHTS (ALERTA)
+--=============================================================================
+CarTab:AddToggle({
+    Name = "Loop Lights",
+    Default = false,
+    Callback = function(state)
+        loopLights = state
+
+        task.spawn(function()
+            while loopLights do
+                Remotes.ToggleHazardLights:InvokeServer()
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- LOOP DESCAPOTAR
+--=============================================================================
+CarTab:AddToggle({
+    Name = "Loop Descapotar",
+    Default = false,
+    Callback = function(state)
+        loopDescapotar = state
+
+        task.spawn(function()
+            while loopDescapotar do
+                Remotes.RepositionVehicle:InvokeServer()
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- LOOP MÚSICA CHATA
+--=============================================================================
+CarTab:AddToggle({
+    Name = "Loop Música Chata",
+    Default = false,
+    Callback = function(state)
+        loopMusica = state
+
+        task.spawn(function()
+            while loopMusica do
+                local args = {
+                    [1] = "PickingVehicleMusicText",
+                    [2] = "138246178191037",
+                    [4] = true
+                }
+
+                CarRemote:FireServer(unpack(args))
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+
 print("Speed Car / Speed Boat Forçado | Turbo Car OK")
 
 
