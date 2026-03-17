@@ -543,7 +543,7 @@ local Tab4 = Window:MakeTab({
 -- PARÁGRAFO
 --=============================================================================
 Tab4:AddParagraph({
-    Title = "Funções para você usar em você",
+    Title = "função para você usar em você",
     Content = ""
 })
 
@@ -601,7 +601,7 @@ Tab4:AddButton({
 
         if failCount > 0 then
             game.StarterGui:SetCore("SendNotification",{
-                Title = "Aviso",
+                Title = "unban Aviso",
                 Text = "Falha ao remover bans de "..failCount.." casas.",
                 Duration = 5
             })
@@ -617,6 +617,18 @@ Tab4:AddButton({
 
     end
 })
+
+
+
+--=============================================================================
+-- PARÁGRAFO FINAL
+--=============================================================================
+Tab4:AddParagraph({
+    Title = "para usar na sua casa",
+    Content = ""
+})
+
+
 
 --=============================================================================
 -- RGB CASA
@@ -689,7 +701,6 @@ Tab4:AddToggle({
 
     end
 })
-
 
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
