@@ -690,6 +690,90 @@ Tab4:AddToggle({
     end
 })
 
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Remote = ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Player1sHous1e")
+
+-- Variáveis de controle
+local loopGarage = false
+local loopCurtains = false
+local loopBaby = false
+local loopLock = false
+
+--=============================================================================
+-- GARAGE DOOR
+--=============================================================================
+Tab4:AddToggle({
+    Name = "Abrir e Fechar Garagem loop",
+    Default = false,
+    Callback = function(state)
+        loopGarage = state
+
+        task.spawn(function()
+            while loopGarage do
+                Remote:FireServer("GarageDoor")
+                task.wait(0.6)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- CURTAINS
+--=============================================================================
+Tab4:AddToggle({
+    Name = "abrir e fechar cortinas loop",
+    Default = false,
+    Callback = function(state)
+        loopCurtains = state
+
+        task.spawn(function()
+            while loopCurtains do
+                Remote:FireServer("Curtains")
+                task.wait(0.6)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- BABY OPTION
+--=============================================================================
+Tab4:AddToggle({
+    Name = "Baby Option Loop",
+    Default = false,
+    Callback = function(state)
+        loopBaby = state
+
+        task.spawn(function()
+            while loopBaby do
+                Remote:FireServer("BabyOptionYes")
+                task.wait(0.3)
+            end
+        end)
+    end
+})
+
+--=============================================================================
+-- LOCK DOORS
+--=============================================================================
+Tab4:AddToggle({
+    Name = "Trancar Portas Loop",
+    Default = false,
+    Callback = function(state)
+        loopLock = state
+
+        task.spawn(function()
+            while loopLock do
+                Remote:FireServer("LockDoors")
+                task.wait(0.6)
+            end
+        end)
+    end
+})
+
+
 --=============================================================================
 -- PARÁGRAFO FINAL
 --=============================================================================
