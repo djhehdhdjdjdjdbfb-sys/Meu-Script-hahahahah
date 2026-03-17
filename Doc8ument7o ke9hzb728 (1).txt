@@ -5389,9 +5389,4 @@ MusicTab:AddButton({
 })
 
 
-
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/djhehdhdjdjdjdbfb-sys/Meu-Script-hahahahah/refs/heads/main/props.txt"))()
-
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/pedrosempai/Ihigihigihihiih/refs/heads/main/8741971bbe86bb36.lua.txt"))()
