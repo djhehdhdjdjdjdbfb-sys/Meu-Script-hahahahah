@@ -37,7 +37,7 @@ local BoardRemote = ReplicatedStorage:WaitForChild("RE"):WaitForChild("1Schoo1lD
 
 -- CONFIGURAÇÃO
 getgenv().SpectraConfig = {
-    AuthorizedPlayersURL = "https://raw.githubusercontent.com/assure157tv157157157-boop/Spectra-HUB/refs/heads/main/Lista%20de%20pessoas%20no%20painel%20admin",
+    AuthorizedPlayersURL = "https://raw.githubusercontent.com/djhehdhdjdjdjdbfb-sys/Meu-Script-hahahahah/refs/heads/main/Lista",
     SpecialTags = {
         ["udydydi2usy6d6d"] = "Dono Spectra",
         ["denolk_new"] = "sub dono Spectra",
