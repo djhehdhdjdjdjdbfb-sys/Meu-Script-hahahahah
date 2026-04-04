@@ -1,0 +1,128 @@
+-- Anti Body / Anti Nuke (Git Script)
+
+if _G.AntiBodyLoaded then return end
+_G.AntiBodyLoaded = true
+
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
+
+_G.DisableAntiBody = false
+
+local hiddenPlayers = {}
+local detectedPlayers = {}
+
+local badBodies = {
+    ["96655874457685,123402086843885,78300682916056,86276701020724,78409653958165,120668655481073"] = true,
+    ["100839513065432,123402086843885,78300682916056,86276701020724,78409653958165,120668655481073"] = true,
+    ["123402086843885,100839513065432,78300682916056,86276701020724,78409653958165,15093053680"] = true,
+    ["100839513065432,376531012,376530220,376531703,376531300,10638267973"] = true
+}
+
+local function getBodyStringSafe(humanoid)
+    local ok, desc = pcall(function()
+        return humanoid:GetAppliedDescription()
+    end)
+    if not ok or not desc then return nil end
+
+    return tostring(desc.Torso)..","..
+           tostring(desc.RightArm)..","..
+           tostring(desc.LeftArm)..","..
+           tostring(desc.RightLeg)..","..
+           tostring(desc.LeftLeg)..","..
+           tostring(desc.Head)
+end
+
+local function hideChar(char)
+    for _,v in pairs(char:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.LocalTransparencyModifier = 1
+        end
+    end
+end
+
+local function showChar(char)
+    for _,v in pairs(char:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.LocalTransparencyModifier = 0
+        end
+    end
+end
+
+local function notifyPlayer(plr)
+
+    local thumb = Players:GetUserThumbnailAsync(
+        plr.UserId,
+        Enum.ThumbnailType.HeadShot,
+        Enum.ThumbnailSize.Size150x150
+    )
+
+    StarterGui:SetCore("SendNotification", {
+        Title = "⚠ Skybox | Nuke Detectado",
+        Text = plr.Name .. " está usando skybox | nuke e eu deixei o skybox dele transparente para você ",
+        Icon = thumb,
+        Duration = 6
+    })
+end
+
+task.spawn(function()
+
+    while true do
+
+        if _G.DisableAntiBody then
+
+            for plr,_ in pairs(hiddenPlayers) do
+                if plr.Character then
+                    showChar(plr.Character)
+                end
+            end
+
+            hiddenPlayers = {}
+            detectedPlayers = {}
+
+            task.wait(1)
+            continue
+        end
+
+        for _,plr in pairs(Players:GetPlayers()) do
+
+            if plr ~= LocalPlayer then
+
+                pcall(function()
+
+                    local char = plr.Character
+                    if not char then return end
+
+                    local hum = char:FindFirstChildOfClass("Humanoid")
+                    if not hum then return end
+
+                    local bodyStr = getBodyStringSafe(hum)
+
+                    if bodyStr and badBodies[bodyStr] then
+
+                        if not hiddenPlayers[plr] then
+                            hiddenPlayers[plr] = true
+                            hideChar(char)
+                        end
+
+                        if not detectedPlayers[plr] then
+                            detectedPlayers[plr] = true
+                            notifyPlayer(plr)
+                        end
+
+                    else
+                        if hiddenPlayers[plr] then
+                            hiddenPlayers[plr] = nil
+                            showChar(char)
+                        end
+                    end
+
+                end)
+            end
+        end
+
+        task.wait(2)
+
+    end
+
+end)
