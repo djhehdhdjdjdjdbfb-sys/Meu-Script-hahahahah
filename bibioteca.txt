@@ -427,7 +427,8 @@ function MyLibrary:MakeWindow(Configs)
         Image = WBackground,
         ImageColor3 = Color3.fromRGB(255, 255, 255),
         ImageTransparency = WBackgroundTransparency,
-        ScaleType = Enum.ScaleType.Crop
+        ScaleType = Enum.ScaleType.Crop,
+        ClipsDescendants = true  -- ESSENCIAL para cortar o conteúdo ao minimizar
     }), "Main")
     Make("Gradient", MainFrame, { Rotation = 45 })
     MakeDrag(MainFrame)
@@ -435,7 +436,6 @@ function MyLibrary:MakeWindow(Configs)
     local MainCorner = Make("Corner", MainFrame)
     local Components = Create("Folder", MainFrame, { Name = "Components" })
     local DropdownHolder = Create("Folder", ScreenGui, { Name = "Dropdown" })
-    -- ALTERADO: altura da TopBar aumentada de 28 para 40
     local TopBar = Create("Frame", Components, { Size = UDim2.new(1, 0, 0, 40), BackgroundTransparency = 1, Name = "Top Bar" })
 
     local IconLabel
@@ -449,7 +449,6 @@ function MyLibrary:MakeWindow(Configs)
         })
     end
 
-    -- ALTERADO: TextSize do título aumentado para 18
     local Title = InsertTheme(Create("TextLabel", TopBar, {
         Position = UDim2.new(0, (WIcon and 35 or 15), 0.5),
         AnchorPoint = Vector2.new(0, 0.5),
@@ -466,7 +465,6 @@ function MyLibrary:MakeWindow(Configs)
             Size = UDim2.fromScale(0, 1),
             AutomaticSize = "X",
             AnchorPoint = Vector2.new(0, 1),
-            -- ALTERADO: posição Y ajustada para 0.85 e TextSize para 12
             Position = UDim2.new(1, 5, 0.85),
             Text = WMiniText,
             TextColor3 = Theme["Color Dark Text"],
@@ -574,21 +572,27 @@ function MyLibrary:MakeWindow(Configs)
         })
     end
 
+    -- FUNÇÃO DE MINIMIZAR CORRIGIDA
     function Window:MinimizeBtn()
         if WaitClick then return end
         WaitClick = true
         if Minimized then
+            -- Restaurar
             MinimizeButton.Image = "rbxassetid://10734896206"
+            MainFrame.ClipsDescendants = false   -- Permite que o conteúdo apareça
             CreateTween({ MainFrame, "Size", SaveSize, 0.25, true })
             ControlSize1.Visible = true
             ControlSize2.Visible = true
             Minimized = false
         else
+            -- Minimizar
             MinimizeButton.Image = "rbxassetid://10734924532"
             SaveSize = MainFrame.Size
             ControlSize1.Visible = false
             ControlSize2.Visible = false
-            CreateTween({ MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true })
+            MainFrame.ClipsDescendants = true    -- Corta tudo que excede
+            -- Altura exata da TopBar (40) + possíveis bordas (0)
+            CreateTween({ MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 40), 0.25, true })
             Minimized = true
         end
         WaitClick = false
